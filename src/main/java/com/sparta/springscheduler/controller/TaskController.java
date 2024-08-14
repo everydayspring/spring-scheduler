@@ -71,5 +71,36 @@ public class TaskController {
         });
     }
 
+    @GetMapping("/scheduler/search")
+    public List<TaskResponseDto> searchTasks(
+            @RequestParam(required = false) String updatedAt,
+            @RequestParam(required = false) String name) {
 
+        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM tasks WHERE 1=1");
+
+        if (updatedAt != null && !updatedAt.isEmpty()) {
+            sqlBuilder.append(" AND DATE_FORMAT(UpdatedAt, '%Y-%m-%d') = '").append(updatedAt).append("'");
+        }
+
+        if (name != null && !name.isEmpty()) {
+            sqlBuilder.append(" AND Name = '").append(name).append("'");
+        }
+
+        sqlBuilder.append(" ORDER BY UpdatedAt DESC");
+
+        String sql = sqlBuilder.toString();
+
+        return jdbcTemplate.query(sql, new RowMapper<TaskResponseDto>() {
+            @Override
+            public TaskResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                int id = rs.getInt("Id");
+                String content = rs.getString("Content");
+                String taskName = rs.getString("Name");
+                String createdAt = rs.getString("CreatedAt");
+                String updated = rs.getString("UpdatedAt");
+
+                return new TaskResponseDto(id, taskName, content, createdAt, updated);
+            }
+        });
+    }
 }
