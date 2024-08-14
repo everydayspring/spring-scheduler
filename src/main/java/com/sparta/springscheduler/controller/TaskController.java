@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -76,7 +77,7 @@ public class TaskController {
         String sql = "SELECT * FROM tasks WHERE Id = ?";
 
         return jdbcTemplate.query(sql, resultSet -> {
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 String name = resultSet.getString("Name");
                 String content = resultSet.getString("Content");
                 String createdAt = resultSet.getString("CreatedAt");
@@ -120,5 +121,23 @@ public class TaskController {
                 return new TaskResponseDto(id, taskName, content, createdAt, updated);
             }
         });
+    }
+
+    @PutMapping("/scheduler/{id}")
+    public TaskResponseDto updateTask(
+            @PathVariable int id,
+            @RequestBody TaskRequestDto requestDto) {
+
+        String sqlCheckPassword = "SELECT Password FROM tasks WHERE Id = ?";
+        String storedPassword = jdbcTemplate.queryForObject(sqlCheckPassword, new Object[]{id}, String.class);
+        if (storedPassword == null || !storedPassword.equals(requestDto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        String sqlUpdate = "UPDATE tasks SET Name = ?, Content = ?, UpdatedAt = ? WHERE Id = ?";
+        jdbcTemplate.update(sqlUpdate, requestDto.getName(), requestDto.getContent(),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), id);
+
+        return getTaskById(id);
     }
 }

@@ -21,8 +21,8 @@
 |-----------|--------|------------------------|---------|----------------|
 | 일정 등록     | POST   | /api/scheduler         | body    | 등록 정보      |
 | 일정 전체 조회  | GET    | /api/scheduler         | param   | 다건 응답 정보 |
-| 일정 수정     | PUT    | /api/scheduler/{id}    | body    | 수정 정보      |
-| 일정 삭제     | DELETE | /api/scheduler/{id}    | param   | 삭제 정보      |
+| 선택한 일정 수정 | PUT    | /api/scheduler/{id}    | body    | 수정 정보      |
+| 선택한 일정 삭제 | DELETE | /api/scheduler/{id}    | param   | 삭제 정보      |
 | 선택한 일정 조회 | GET    | /api/scheduler/{id}    | param   | 단건 응답 정보 |
 | 일정 목록 조회  | GET    | /api/scheduler/search  | query   | 다건 응답 정보 |
 
