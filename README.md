@@ -15,7 +15,7 @@
 </div>
 
 ## API
-### [🔗 API Document](https://documenter.getpostman.com/view/37564576/2sA3s4mqhN)
+### [🔗 API Document](https://documenter.getpostman.com/view/37564576/2sA3s6EpJd)
 
 | 기능        | Method | URL                    | request | response       |
 |-----------|--------|------------------------|---------|----------------|

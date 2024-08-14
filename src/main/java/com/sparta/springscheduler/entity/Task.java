@@ -23,10 +23,4 @@ public class Task {
         this.name = requestDto.getName();
         this.password = requestDto.getPassword();
     }
-
-    public void update(TaskRequestDto requestDto) {
-        this.content = requestDto.getContent();
-        this.name = requestDto.getName();
-        this.password = requestDto.getPassword();
-    }
 }

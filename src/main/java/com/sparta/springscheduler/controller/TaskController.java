@@ -124,9 +124,7 @@ public class TaskController {
     }
 
     @PutMapping("/scheduler/{id}")
-    public TaskResponseDto updateTask(
-            @PathVariable int id,
-            @RequestBody TaskRequestDto requestDto) {
+    public TaskResponseDto updateTask(@PathVariable int id, @RequestBody TaskRequestDto requestDto) {
 
         String sqlCheckPassword = "SELECT Password FROM tasks WHERE Id = ?";
         String storedPassword = jdbcTemplate.queryForObject(sqlCheckPassword, new Object[]{id}, String.class);
@@ -139,5 +137,18 @@ public class TaskController {
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), id);
 
         return getTaskById(id);
+    }
+
+    @DeleteMapping("/scheduler/{id}")
+    public void deleteTask(@PathVariable int id, @RequestBody TaskRequestDto requestDto) {
+
+        String sqlCheckPassword = "SELECT Password FROM tasks WHERE Id = ?";
+        String storedPassword = jdbcTemplate.queryForObject(sqlCheckPassword, new Object[]{id}, String.class);
+        if (storedPassword == null || !storedPassword.equals(requestDto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        String sqlDelete = "DELETE FROM tasks WHERE Id = ?";
+        jdbcTemplate.update(sqlDelete, id);
     }
 }
