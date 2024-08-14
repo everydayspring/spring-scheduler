@@ -71,6 +71,24 @@ public class TaskController {
         });
     }
 
+    @GetMapping("/scheduler/{id}")
+    public TaskResponseDto getTaskById(@PathVariable int id) {
+        String sql = "SELECT * FROM tasks WHERE Id = ?";
+
+        return jdbcTemplate.query(sql, resultSet -> {
+            if(resultSet.next()) {
+                String name = resultSet.getString("Name");
+                String content = resultSet.getString("Content");
+                String createdAt = resultSet.getString("CreatedAt");
+                String updatedAt = resultSet.getString("updatedAt");
+
+                return new TaskResponseDto(id, name, content, createdAt, updatedAt);
+            } else {
+                return null;
+            }
+        }, id);
+    }
+
     @GetMapping("/scheduler/search")
     public List<TaskResponseDto> searchTasks(
             @RequestParam(required = false) String updatedAt,
