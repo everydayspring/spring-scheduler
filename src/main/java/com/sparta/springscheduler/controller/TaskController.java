@@ -34,13 +34,6 @@ public class TaskController {
         return taskService.createTask(requestDto);
     }
 
-    // 일정 전체 조회
-    // GET http://localhost:8080/api/scheduler
-    @GetMapping("/scheduler")
-    public List<TaskResponseDto> getTasks() {
-        return taskService.getTasks();
-    }
-
     // 선택한 일정 조회
     // GET http://localhost:8080/api/scheduler/1
     @GetMapping("/scheduler/{id}")
@@ -50,7 +43,7 @@ public class TaskController {
 
     // 일정 목록 조회
     // GET http://localhost:8080/api/scheduler/search?upadatedAt=2024-08-14&name=관리자명
-    @GetMapping("/scheduler/search")
+    @GetMapping("/scheduler")
     public List<TaskResponseDto> searchTasks(
             @RequestParam(required = false) String updatedAt,
             @RequestParam(required = false) String name) {

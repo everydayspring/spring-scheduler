@@ -34,12 +34,6 @@ public class TaskService {
         return new TaskResponseDto(task);
     }
 
-    // 일정 전체 조회
-    public List<TaskResponseDto> getTasks() {
-        // 조회된 전체 일정 List 반환
-        return taskRepository.findAll();
-    }
-
     // 선택한 일정 조회
     public TaskResponseDto getTaskById(int id) {
         // id 입력값 검증

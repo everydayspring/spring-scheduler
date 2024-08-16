@@ -55,14 +55,6 @@ public class TaskRepository {
         return keyHolder.getKey().intValue();
     }
 
-    // 일정 전체 조회
-    public List<TaskResponseDto> findAll() {
-        // query
-        String sql = "SELECT * FROM tasks";
-        // 조회된 전체 일정 List 반환
-        return jdbcTemplate.query(sql, taskRowMapper());
-    }
-
     // id 값으로 조회
     public TaskResponseDto findById(int id) {
         // query
