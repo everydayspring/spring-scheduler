@@ -62,8 +62,10 @@ public class TaskService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
+        Task task = new Task(requestDto);
+
         // Database의 일정 수정 호출
-        taskRepository.update(id, requestDto.getName(), requestDto.getContent(), new Date());
+        taskRepository.update(id, task, new Date());
         // 수정 후 단건 검색하여 반환
         return taskRepository.findById(id);
     }

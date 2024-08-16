@@ -94,11 +94,21 @@ public class TaskRepository {
     }
 
     // 일정 수정
-    public void update(int id, String name, String content, Date updatedAt) {
+    public void update(int id, Task task, Date updatedAt) {
+        if(task.getName() == null){
+            TaskResponseDto responseDto = findById(id);
+            task.setName(responseDto.getName());
+        }
+
+        if(task.getContent() == null){
+            TaskResponseDto responseDto = findById(id);
+            task.setContent(responseDto.getContent());
+        }
+
         // query
         String sqlUpdate = "UPDATE tasks SET Name = ?, Content = ?, UpdatedAt = ? WHERE Id = ?";
         // 작성된 query 실행
-        jdbcTemplate.update(sqlUpdate, name, content, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(updatedAt), id);
+        jdbcTemplate.update(sqlUpdate, task.getName(), task.getContent(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(updatedAt), id);
     }
 
     // 일정 삭제
